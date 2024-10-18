@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller</title>
+</head>
+<body>
+    <div id="container">
+        <h1 id="h1">Dice Roller</h1>
+        <label># num of dice</label>
+        <input type="number" value="1" min="1" max="10" id="numDice"> 
+        <button id="rolls" onclick="rollDice()">Roll Dice</button>
+        <div id="diceResult"></div>
+        <div id="diceImages"></div>
+        <script>
+            function rollDice() {
+                const numOfDice = parseInt(document.getElementById("numDice").value); 
+                const diceResult = document.getElementById("diceResult");    
+                const diceImages = document.getElementById("diceImages");  
+                
+                diceImages.innerHTML = ""; 
+
+                if (numOfDice <= 0) {
+                    diceResult.textContent = "Please enter a valid number of dice.";
+                    return;
+                } else if (numOfDice > 10) {
+                    diceResult.textContent = "You cannot roll more than 10 dice.";
+                    return;
+                }
+
+                const values = [];
+                const images = [];
+
+                diceImages.classList.add("shake"); 
+                setTimeout(() => {
+                    diceImages.classList.remove("shake"); 
+                }, 1000);
+
+                for (let i = 0; i < numOfDice; i++) {
+                    const value = Math.floor(Math.random() * 6 + 1);
+                    values.push(value);
+                    images.push(`<img src="imgs/${value}.jpeg" alt="Dice ${value}" class="dice-image">`);
+                }
+
+                diceResult.textContent = `Rolled dice: ${values.join(', ')}`; 
+                diceImages.innerHTML = images.join(''); 
+            }
+        </script>
+    </div>
+
+    <style>
+        #container {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            z-index: 2; 
+            position: relative;
+        }
+
+        button {
+            font-size: 1.5rem;
+            padding: 10px 15px;
+            border-radius: 10px;
+            background-color: rgb(35, 160, 233);  
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: background-color 0.4s ease;  
+        }
+
+        button:hover { 
+            background-color: rgb(87, 76, 194); 
+        }
+
+        button:active {
+            background-color: rgb(81, 175, 238); 
+        }
+
+        input {
+            text-align: center;
+            font-size: 25px;
+            border-radius: 10px;
+            border: 0.5px black solid;
+            padding: 10px;
+        }
+
+        #diceResult {
+            margin: 10px;
+            font-size: 1.5rem;
+        }
+
+        #diceImages {
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            margin-top: 10px; 
+        }
+
+        #diceImages img {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            transition: transform 0.2s ease; 
+        }
+
+        .dice-image {
+            animation: diceRoll 1s forwards; 
+        }
+
+        @keyframes diceRoll {
+            0% { transform: scale(1); }
+            25% { transform: scale(1); }
+            50% { transform: scale(2); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(0.9); }
+        }
+
+        .shake {
+            animation: shake 1s; 
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        #h1 {
+            color: black;
+        }
+
+        body {
+            background-image: linear-gradient(10deg, transparent, rgb(97, 74, 201), rgb(112, 112, 214));
+            height: 100vh;
+            margin: 0; 
+            display: flex; 
+            justify-content: center;
+            align-items: center; 
+        }
+    </style>
+</body>
+</html>
